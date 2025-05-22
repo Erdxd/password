@@ -36,4 +36,5 @@ func promtData(prompt string) string {
 }
 func outputhassword(acc *account) {
 	fmt.Println(acc.login, acc.password, acc.URL)
+fmt.Println("acc")
 }
