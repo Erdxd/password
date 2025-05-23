@@ -2,7 +2,24 @@ package main
 
 import (
 	"fmt"
+	"math/rand/v2"
 )
+
+var letterruns = []rune("qwertyuiop[]asdfghjkl;'zxcvbnm,.1234567890-=")
+
+func (acc *account) generatePassword(n int) {
+	ald := make([]rune, n)
+
+	for i := range ald {
+		ald[i] = letterruns[rand.IntN(len(letterruns))]
+
+	}
+	acc.password = string(ald)
+}
+
+func (acc *account) outputhassword() {
+	fmt.Println(acc.login, acc.password, acc.URL)
+}
 
 type account struct {
 	login    string
@@ -11,21 +28,19 @@ type account struct {
 }
 
 func main() {
-	str := "привет!)"        // rune(руны)
-	for d, ch := range str { //ch - юникод значение(под капотом) string(ch) — преобразует эту руну обратно в строку из одного символа.
-		fmt.Println(d, ch, "=", string(ch))
-		// d-байтовый индекс русские буквы занимают 2 байта а данные символы по одному, он их сумирует
-	}
+
 	login := promtData("Введите логин")
-	password := promtData("Введите пароль")
+	//password := promtData("Введите пароль")
 	URL := promtData("Введите URL")
 
 	MYaccount := account{
-		login:    login,
-		password: password,
-		URL:      URL,
+		login: login,
+		//password: password,
+		URL: URL,
 	}
-	outputhassword(&MYaccount)
+	MYaccount.generatePassword(12)
+	MYaccount.outputhassword()
+
 }
 func promtData(prompt string) string {
 	fmt.Print(prompt + ": ")
@@ -33,7 +48,4 @@ func promtData(prompt string) string {
 	fmt.Scan(&res)
 	return res
 
-}
-func outputhassword(acc *account) {
-	fmt.Println(acc.login, acc.password, acc.URL)
 }
