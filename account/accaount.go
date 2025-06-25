@@ -1,7 +1,6 @@
 package account
 
 import (
-	"encoding/json"
 	"errors"
 	"math/rand/v2"
 	"net/url"
@@ -33,13 +32,6 @@ func (acc *Account) GeneratePassword(n int) string {
 	gen := string(ald)
 	return gen
 
-}
-func (acc *Account) ToBytes() ([]byte, error) {
-	file, err := json.Marshal(acc)
-	if err != nil {
-		return nil, err
-	}
-	return file, nil
 }
 
 func (acc *Account) Outputhassword() {
