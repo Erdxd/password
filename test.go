@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/Erdxd/password/account"
+	"github.com/Erdxd/password/files"
 )
 
 func main() {
@@ -27,6 +28,8 @@ func main() {
 	}
 
 	MYaccount.Outputhassword()
+	files.Readfile()
+	files.Writefiles("привет я файл", "file.txt")
 
 }
 

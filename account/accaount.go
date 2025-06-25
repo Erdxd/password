@@ -2,10 +2,11 @@ package account
 
 import (
 	"errors"
-	"fmt"
 	"math/rand/v2"
 	"net/url"
 	"time"
+
+	"github.com/fatih/color"
 )
 
 // композиция(наследование)
@@ -23,9 +24,9 @@ func (acc *Account) GeneratePassword(n int) {
 }
 
 func (acc *Account) Outputhassword() {
-	fmt.Println(acc.login, "-логин")
-	fmt.Println(acc.password, "-пароль")
-	fmt.Println(acc.URL, "-ЮРЛ")
+	color.Green(acc.login)
+	color.Green(acc.password)
+	color.Green(acc.URL)
 }
 
 func NewAccountWithTimeStamp(login, password, URLstring string) (*AccountWithTimeStamp, error) {
