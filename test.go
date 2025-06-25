@@ -8,31 +8,40 @@ import (
 )
 
 func main() {
+	CreatedAccount()
 
+}
+
+func CreatedAccount() {
 	login := promtData("Введите логин")
 	password := promtData("Введите пароль")
 	URL := promtData("Введите URL")
+
 	var err error
-	MYaccount, err := account.NewAccountWithTimeStamp(login, password, URL)
+	MYaccount, err := account.NewAccount(login, password, URL)
 	if err != nil {
 		fmt.Println("неверный формат URL")
 		return
 	}
 	if login == "" {
-		fmt.Println("логина нету")
+		fmt.Println("Логина нету")
 		return
 	}
 	if password == "" {
 		fmt.Println("нету пароля,генерируем...")
-
-		gen := MYaccount.GeneratePassword(10)
-		files.Writefiles(login, "file.txt", gen, URL)
+		MYaccount.GeneratePassword(10)
+		//gen := MYaccount.GeneratePassword(10)
+		//files.Writefiles(login, "file.txt", gen, URL)
 	} else {
-		files.Writefiles(login, "file.txt", password, URL)
+		//files.Writefiles(login, "file.txt", password, URL,)
 	}
+	file, err := MYaccount.ToBytes()
+	if err != nil {
+		fmt.Println("не удалось преобращовать в json данные")
+		return
 
-	MYaccount.Outputhassword()
-	files.Readfile()
+	}
+	files.Writefiles("data.Json", file)
 
 }
 

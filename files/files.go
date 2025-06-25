@@ -14,20 +14,24 @@ func Readfile() {
 	fmt.Println(string(data))
 
 }
-func Writefiles(namelogin string, name string, namePass string, nameUrl string) {
+func Writefiles(name string, content []byte) {
 	file, err := os.Create(name)
 	if err != nil {
 		fmt.Println(err)
 	}
-	_, err = file.WriteString(namelogin + "-логин     ")
+
 	defer file.Close()
+
 	if err != nil {
 
 		fmt.Println(err)
 		return
 	}
-	file.WriteString(namePass + "-пароль	  ")
-	file.WriteString(nameUrl + "-URL	  ")
+	_, err = file.Write(content)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
 	fmt.Println("Запись успешна")
 

@@ -1,6 +1,7 @@
 package account
 
 import (
+	"encoding/json"
 	"errors"
 	"math/rand/v2"
 	"net/url"
@@ -13,6 +14,14 @@ import (
 
 var letterruns = []rune("qwertyuiop[]asdfghjkl;'zxcvbnm,.1234567890-=")
 
+type Account struct {
+	Login       string    `json:"Login" `
+	Password    string    `json:"Password" `
+	URL         string    `json:"Url" `
+	CreatedTime time.Time `json:"CreatedTime" `
+	UpdateTime  time.Time `json:"UpdatedtTime" `
+}
+
 func (acc *Account) GeneratePassword(n int) string {
 	ald := make([]rune, n)
 
@@ -20,19 +29,26 @@ func (acc *Account) GeneratePassword(n int) string {
 		ald[i] = letterruns[rand.IntN(len(letterruns))]
 
 	}
-	acc.password = string(ald)
+	acc.Password = string(ald)
 	gen := string(ald)
 	return gen
 
 }
+func (acc *Account) ToBytes() ([]byte, error) {
+	file, err := json.Marshal(acc)
+	if err != nil {
+		return nil, err
+	}
+	return file, nil
+}
 
 func (acc *Account) Outputhassword() {
-	color.Green(acc.login)
-	color.Green(acc.password)
+	color.Green(acc.Login)
+	color.Green(acc.Password)
 	color.Green(acc.URL)
 }
 
-func NewAccountWithTimeStamp(login, password, URLstring string) (*AccountWithTimeStamp, error) {
+func NewAccount(login, password, URLstring string) (*Account, error) {
 
 	_, err := url.ParseRequestURI(URLstring)
 	if err != nil {
@@ -40,27 +56,16 @@ func NewAccountWithTimeStamp(login, password, URLstring string) (*AccountWithTim
 		return nil, errors.New("Invalid_URL")
 	}
 
-	Newacc := &AccountWithTimeStamp{
-		createdTime: time.Now(),
-		updateTime:  time.Now(),
-		Account: Account{
-			login:    login,
-			password: password,
-			URL:      URLstring,
-		},
+	Newacc := &Account{
+		CreatedTime: time.Now(),
+		UpdateTime:  time.Now(),
+		URL:         URLstring,
+		Login:       login,
+		Password:    password,
 	}
+	//field, _ := reflect.TypeOf(Newacc).Elem().FieldByName("Login")
+	//fmt.Println(string(field.Tag))
 
 	return Newacc, nil
 
-}
-
-type Account struct {
-	login    string
-	password string
-	URL      string
-}
-type AccountWithTimeStamp struct {
-	createdTime time.Time
-	updateTime  time.Time
-	Account
 }
