@@ -13,7 +13,7 @@ import (
 
 var letterruns = []rune("qwertyuiop[]asdfghjkl;'zxcvbnm,.1234567890-=")
 
-func (acc *Account) GeneratePassword(n int) {
+func (acc *Account) GeneratePassword(n int) string {
 	ald := make([]rune, n)
 
 	for i := range ald {
@@ -21,6 +21,9 @@ func (acc *Account) GeneratePassword(n int) {
 
 	}
 	acc.password = string(ald)
+	gen := string(ald)
+	return gen
+
 }
 
 func (acc *Account) Outputhassword() {

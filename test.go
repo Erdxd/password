@@ -24,12 +24,15 @@ func main() {
 	}
 	if password == "" {
 		fmt.Println("нету пароля,генерируем...")
-		MYaccount.GeneratePassword(10)
+
+		gen := MYaccount.GeneratePassword(10)
+		files.Writefiles(login, "file.txt", gen, URL)
+	} else {
+		files.Writefiles(login, "file.txt", password, URL)
 	}
 
 	MYaccount.Outputhassword()
 	files.Readfile()
-	files.Writefiles("привет я файл", "file.txt")
 
 }
 
