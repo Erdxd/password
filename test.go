@@ -35,6 +35,7 @@ menu:
 		}
 
 	}
+fmt.Println("d")
 }
 
 func CreatedAccount() {
