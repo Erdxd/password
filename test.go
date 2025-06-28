@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/Erdxd/password/account"
-	"github.com/Erdxd/password/files"
 )
 
 func main() {
@@ -35,7 +34,7 @@ menu:
 		}
 
 	}
-fmt.Println("d")
+	fmt.Println("d")
 }
 
 func CreatedAccount() {
@@ -63,14 +62,6 @@ func CreatedAccount() {
 	}
 	vault := account.NewVault()
 	vault.AddAccount(*MYaccount)
-	data, err := vault.ToBytes()
-
-	if err != nil {
-		fmt.Println("не удалось преобращовать в json данные")
-		return
-
-	}
-	files.Writefiles("data.Json", data)
 
 }
 func Findaccount() {

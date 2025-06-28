@@ -33,6 +33,13 @@ func NewVault() *Vault {
 func (vault *Vault) AddAccount(acc Account) {
 	vault.Accounts = append(vault.Accounts, acc)
 	vault.UpdatedtTime = time.Now()
+	data, err := vault.ToBytes()
+	if err != nil {
+		color.Red("Не удалось преобразовать файл JSON")
+		return
+
+	}
+	files.Writefiles("data.json", data)
 
 }
 
