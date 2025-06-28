@@ -3,6 +3,9 @@ package account
 import (
 	"encoding/json"
 	"time"
+
+	"github.com/Erdxd/password/files"
+	"github.com/fatih/color"
 )
 
 type Vault struct {
@@ -11,10 +14,20 @@ type Vault struct {
 }
 
 func NewVault() *Vault {
-	return &Vault{
-		Accounts:     []Account{},
-		UpdatedtTime: time.Now(),
+	file, err := files.Readfile("data.json")
+	if err != nil {
+		return &Vault{
+			Accounts:     []Account{},
+			UpdatedtTime: time.Now(),
+		}
 	}
+	var vault Vault
+	err = json.Unmarshal(file, &vault)
+	if err != nil {
+		color.Red(err.Error())
+
+	}
+	return &vault
 
 }
 func (vault *Vault) AddAccount(acc Account) {
