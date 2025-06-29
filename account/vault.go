@@ -2,6 +2,8 @@ package account
 
 import (
 	"encoding/json"
+	"strings"
+
 	"time"
 
 	"github.com/Erdxd/password/files"
@@ -40,6 +42,19 @@ func (vault *Vault) AddAccount(acc Account) {
 
 	}
 	files.Writefiles("data.json", data)
+
+}
+func (vault *Vault) FIndaccountBYURL(url string) []Account {
+	var accounts []Account
+	for _, account := range vault.Accounts {
+		isMatched := strings.Contains(account.URL, url)
+		if isMatched {
+			accounts = append(accounts, account)
+
+		}
+
+	}
+	return accounts
 
 }
 

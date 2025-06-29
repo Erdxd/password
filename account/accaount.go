@@ -34,7 +34,7 @@ func (acc *Account) GeneratePassword(n int) string {
 
 }
 
-func (acc *Account) Outputhassword() {
+func (acc *Account) Output() {
 	color.Green(acc.Login)
 	color.Green(acc.Password)
 	color.Green(acc.URL)

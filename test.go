@@ -7,6 +7,8 @@ import (
 )
 
 func main() {
+
+	vault := account.NewVault()
 menu:
 	for {
 
@@ -19,9 +21,9 @@ menu:
 		fmt.Scanln(&Useranswer)
 		switch Useranswer {
 		case "1":
-			CreatedAccount()
+			CreatedAccount(vault)
 		case "2":
-			Findaccount()
+			Findaccount(vault)
 
 		case "3":
 			DeleteAcccount()
@@ -37,7 +39,7 @@ menu:
 	fmt.Println("d")
 }
 
-func CreatedAccount() {
+func CreatedAccount(vault *account.Vault) {
 	login := promtData("Введите логин")
 	password := promtData("Введите пароль")
 	URL := promtData("Введите URL")
@@ -60,13 +62,18 @@ func CreatedAccount() {
 	} else {
 		//files.Writefiles(login, "file.txt", password, URL,)
 	}
-	vault := account.NewVault()
+	vault = account.NewVault()
 	vault.AddAccount(*MYaccount)
 
 }
-func Findaccount() {
+func Findaccount(vault *account.Vault) {
 	fmt.Println("Найти аккаунт")
+	URl := promtData("ВВедите URl")
 
+	accounts := vault.FIndaccountBYURL(URl)
+	for _, account := range accounts {
+		account.Output()
+	}
 }
 func DeleteAcccount() {
 
