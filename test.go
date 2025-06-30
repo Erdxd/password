@@ -81,7 +81,7 @@ func Findaccount(vault *account.Vault) {
 }
 func DeleteAcccount(vault *account.Vault) {
 	fmt.Println("Найти аккаунт")
-	URl := promtData("ВВедите URl")
+	//URl := promtData("ВВедите URl")
 
 }
 
