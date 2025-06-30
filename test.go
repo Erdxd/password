@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/Erdxd/password/account"
+	"github.com/fatih/color"
 )
 
 func main() {
@@ -26,7 +27,7 @@ menu:
 			Findaccount(vault)
 
 		case "3":
-			DeleteAcccount()
+			DeleteAcccount(vault)
 
 		case "4":
 			break menu
@@ -71,11 +72,16 @@ func Findaccount(vault *account.Vault) {
 	URl := promtData("ВВедите URl")
 
 	accounts := vault.FIndaccountBYURL(URl)
+	if len(accounts) == 0 {
+		color.Red("Аккаунтов по этому URl не найденно")
+	}
 	for _, account := range accounts {
 		account.Output()
 	}
 }
-func DeleteAcccount() {
+func DeleteAcccount(vault *account.Vault) {
+	fmt.Println("Найти аккаунт")
+	URl := promtData("ВВедите URl")
 
 }
 

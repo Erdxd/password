@@ -11,8 +11,8 @@ import (
 )
 
 type Vault struct {
-	Accounts     []Account `json:"account"`
-	UpdatedtTime time.Time `json:"UpdateTime "`
+	Accounts     []Account `json:"accounts"`
+	UpdatedtTime time.Time `json:"UpdateTime"`
 }
 
 func NewVault() *Vault {
@@ -55,6 +55,31 @@ func (vault *Vault) FIndaccountBYURL(url string) []Account {
 
 	}
 	return accounts
+
+}
+func (vault *Vault) DeleteAcccountBYURL(url string) bool {
+	var accounts []Account
+	isDELETED := false
+	for _, account := range vault.Accounts {
+		isMatched := strings.Contains(account.URL, url)
+		if isMatched {
+
+			accounts = append(accounts, account)
+
+		}
+		isDELETED = true
+
+	}
+	vault.Accounts = accounts
+	vault.UpdatedtTime = time.Now()
+	data, err := vault.ToBytes()
+	if err != nil {
+		color.Red("Не удалось преобразовать файл JSON")
+		return isDELETED
+
+	}
+	files.Writefiles("data.json", data)
+	return isDELETED
 
 }
 
