@@ -81,7 +81,14 @@ func Findaccount(vault *account.Vault) {
 }
 func DeleteAcccount(vault *account.Vault) {
 	fmt.Println("Найти аккаунт")
-	//URl := promtData("ВВедите URl")
+	URl := promtData("ВВедите URl")
+	isDELETED := vault.DeleteAcccountBYURL(URl)
+	if isDELETED {
+		color.Green("Аккаунт удален")
+
+	} else {
+		color.Red("Аккаунт не удален")
+	}
 
 }
 
