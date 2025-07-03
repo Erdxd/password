@@ -10,6 +10,7 @@ import (
 func main() {
 
 	vault := account.NewVault()
+	defer fmt.Println("Check the version, this app will be redesigned with interface, new update can be found at https://github.com/Erdxd/password/releases/tag/new")
 menu:
 	for {
 
