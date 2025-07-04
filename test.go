@@ -32,6 +32,8 @@ menu:
 
 		case "4":
 			break menu
+		case "111":
+			fmt.Println("ls")
 		default:
 			fmt.Println("Вы ввели что-то не так")
 			continue menu
