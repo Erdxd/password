@@ -16,7 +16,7 @@ menu:
 		fmt.Println("Меню:")
 		fmt.Println("1-Создание аккаунта")
 		fmt.Println("2-Найти аккаунт")
-		fmt.Println("3-Удаление аккаунта")
+		fmt.Println("3-Удаление аккаунта222")
 		fmt.Println("4-Выход")
 		Useranswer := ""
 		fmt.Scanln(&Useranswer)
