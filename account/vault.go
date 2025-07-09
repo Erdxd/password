@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/Erdxd/password/files"
+
 	"github.com/fatih/color"
 )
 
@@ -16,22 +17,29 @@ type Vault struct {
 }
 
 func NewVault() *Vault {
-	file, err := files.Readfile("data.json")
+	db := files.NewJsonDB("data.json")
+	file, err := db.Read()
 	if err != nil {
+
 		return &Vault{
 			Accounts:     []Account{},
 			UpdatedtTime: time.Now(),
 		}
 	}
+
 	var vault Vault
 	err = json.Unmarshal(file, &vault)
 	if err != nil {
 		color.Red(err.Error())
-
+		return &Vault{
+			Accounts:     []Account{},
+			UpdatedtTime: time.Now(),
+		}
 	}
 	return &vault
 
 }
+
 func (vault *Vault) AddAccount(acc Account) {
 	vault.Accounts = append(vault.Accounts, acc)
 	vault.save()
@@ -77,6 +85,7 @@ func (vault *Vault) ToBytes() ([]byte, error) {
 	return file, nil
 }
 func (vault *Vault) save() {
+	db := files.NewJsonDB("data.json")
 	vault.UpdatedtTime = time.Now()
 	data, err := vault.ToBytes()
 	if err != nil {
@@ -84,6 +93,7 @@ func (vault *Vault) save() {
 		return
 
 	}
-	files.Writefiles("data.json", data)
+	db := files.NewJsonDB("data.json")
+	db.Write(data)
 
 }
