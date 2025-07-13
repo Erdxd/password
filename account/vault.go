@@ -69,6 +69,7 @@ func (vault *Vault) DeleteAcccountBYURL(url string) bool {
 
 		}
 		isDELETED = true
+fmt.Println("0")
 
 	}
 	vault.Accounts = accounts
