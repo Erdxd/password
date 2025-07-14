@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/Erdxd/password/account"
+	"github.com/Erdxd/password/fis"
 	"github.com/fatih/color"
 )
 
@@ -19,6 +20,7 @@ menu:
 		fmt.Println("2-Найти аккаунт")
 		fmt.Println("3-Удаление аккаунта")
 		fmt.Println("4-Выход")
+
 		Useranswer := ""
 		fmt.Scanln(&Useranswer)
 		switch Useranswer {
@@ -33,9 +35,9 @@ menu:
 		case "4":
 			break menu
 		case "111":
-			fmt.Println("ls")
+			fis.Fisacc()
 		default:
-			fmt.Println("Вы ввели что-то не так")
+			color.Red("Вы ввели что-то не так")
 			continue menu
 		}
 

@@ -93,7 +93,7 @@ func (vault *Vault) save() {
 		return
 
 	}
-	db := files.NewJsonDB("data.json")
+	db = files.NewJsonDB("data.json")
 	db.Write(data)
 
 }
