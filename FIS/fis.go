@@ -1,6 +1,5 @@
 package fis
 
-
 import (
 	"github.com/Erdxd/password/files"
 	"github.com/fatih/color"
@@ -11,12 +10,13 @@ func Fisacc() {
 	db := files.NewJsonDB("data.json")
 
 	db.Read()
-	color.Red("!")
-	for i := 0; i > 5: i++ {
-		color.Red
-	}
+
+	color.Red("!!!!!!!")
+	//for i := 0; i > 5: i++ {
+	//	color.Red
+	//	}
 
 }
-func main(){
-	
+func main() {
+
 }
