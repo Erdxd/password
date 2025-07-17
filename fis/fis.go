@@ -6,18 +6,11 @@ import (
 )
 
 func Fisacc() {
-	color.Red("!")
+	color.Red("!!!!!!!")
 	db := files.NewJsonDB("data.json")
 
 	db.Read()
 
 	color.Red("!!!!!!!")
-	//for i := 0; i > 5: i++ {
-	//	color.Red
-	//	}
-fm
-
-}
-func main() {
 
 }

@@ -42,7 +42,7 @@ menu:
 		}
 
 	}
-	fmt.Println("d")
+
 }
 
 func CreatedAccount(vault *account.Vault) {
