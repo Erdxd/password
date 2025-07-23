@@ -4,14 +4,16 @@ import (
 	"fmt"
 
 	"github.com/Erdxd/password/account"
+	"github.com/Erdxd/password/files"
 	"github.com/Erdxd/password/fis"
 	"github.com/fatih/color"
 )
 
 func main() {
 
-	vault := account.NewVault()
 	defer fmt.Println("Check the version, this app will be redesigned with interface, new update can be found at https://github.com/Erdxd/password/releases/tag/new")
+
+	vault := account.NewVault(files.NewJsonDB("data.json"))
 menu:
 	for {
 
@@ -25,11 +27,14 @@ menu:
 		fmt.Scanln(&Useranswer)
 		switch Useranswer {
 		case "1":
+
 			CreatedAccount(vault)
 		case "2":
+
 			Findaccount(vault)
 
 		case "3":
+
 			DeleteAcccount(vault)
 
 		case "4":
@@ -45,7 +50,7 @@ menu:
 
 }
 
-func CreatedAccount(vault *account.Vault) {
+func CreatedAccount(vault *account.VaultwithDB) {
 	login := promtData("Введите логин")
 	password := promtData("Введите пароль")
 	URL := promtData("Введите URL")
@@ -68,11 +73,11 @@ func CreatedAccount(vault *account.Vault) {
 	} else {
 		//files.Writefiles(login, "file.txt", password, URL,)
 	}
-	vault = account.NewVault()
+
 	vault.AddAccount(*MYaccount)
 
 }
-func Findaccount(vault *account.Vault) {
+func Findaccount(vault *account.VaultwithDB) {
 	fmt.Println("Найти аккаунт")
 	URl := promtData("ВВедите URl")
 
@@ -84,7 +89,7 @@ func Findaccount(vault *account.Vault) {
 		account.Output()
 	}
 }
-func DeleteAcccount(vault *account.Vault) {
+func DeleteAcccount(vault *account.VaultwithDB) {
 	fmt.Println("Найти аккаунт")
 	URl := promtData("ВВедите URl")
 	isDELETED := vault.DeleteAcccountBYURL(URl)
