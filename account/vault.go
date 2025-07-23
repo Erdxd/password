@@ -6,21 +6,30 @@ import (
 
 	"time"
 
-	"github.com/Erdxd/password/files"
-
 	"github.com/fatih/color"
 )
 
+type ByteReader interface {
+	Read() ([]byte, error)
+}
+type ByteWriter interface {
+	Write([]byte)
+}
+
+type Db interface {
+	ByteWriter
+	ByteReader
+}
 type Vault struct {
 	Accounts     []Account `json:"accounts"`
 	UpdatedtTime time.Time `json:"UpdateTime"`
 }
 type VaultwithDB struct {
 	Vault
-	db files.Jsondb
+	db Db
 }
 
-func NewVault(db *files.Jsondb) *VaultwithDB {
+func NewVault(db Db) *VaultwithDB {
 	file, err := db.Read()
 	if err != nil {
 
@@ -29,7 +38,7 @@ func NewVault(db *files.Jsondb) *VaultwithDB {
 				Accounts:     []Account{},
 				UpdatedtTime: time.Now(),
 			},
-			db: *db,
+			db: db,
 		}
 	}
 
@@ -42,12 +51,12 @@ func NewVault(db *files.Jsondb) *VaultwithDB {
 				Accounts:     []Account{},
 				UpdatedtTime: time.Now(),
 			},
-			db: *db,
+			db: db,
 		}
 	}
 	return &VaultwithDB{
 		Vault: vault,
-		db:    *db,
+		db:    db,
 	}
 }
 

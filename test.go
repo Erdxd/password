@@ -6,6 +6,7 @@ import (
 	"github.com/Erdxd/password/account"
 	"github.com/Erdxd/password/files"
 	"github.com/Erdxd/password/fis"
+	"github.com/Erdxd/password/output"
 	"github.com/fatih/color"
 )
 
@@ -14,6 +15,8 @@ func main() {
 	defer fmt.Println("Check the version, this app will be redesigned with interface, new update can be found at https://github.com/Erdxd/password/releases/tag/new")
 
 	vault := account.NewVault(files.NewJsonDB("data.json"))
+	//vault := account.NewVault(cloud.NewCloudDB("htttps://a.ru"))\
+	output.PrintError(1)
 menu:
 	for {
 
