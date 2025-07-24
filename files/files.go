@@ -3,6 +3,8 @@ package files
 import (
 	"fmt"
 	"os"
+
+	"github.com/Erdxd/password/output"
 )
 
 type Jsondb struct {
@@ -22,6 +24,16 @@ func (db *Jsondb) Read() ([]byte, error) {
 		fmt.Println(err)
 		return nil, err
 	}
+
+	return data, nil
+
+}
+func (db *Jsondb) ReadFis() ([]byte, error) {
+	data, err := os.ReadFile(db.filename)
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
 	fmt.Println(string(data))
 	return data, nil
 
@@ -36,7 +48,7 @@ func (db *Jsondb) Write(content []byte) {
 
 	if err != nil {
 
-		fmt.Println(err)
+		output.PrintError(err)
 		return
 	}
 	_, err = file.Write(content)

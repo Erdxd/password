@@ -12,34 +12,29 @@ import (
 
 func main() {
 
-	defer fmt.Println("Check the version, this app will be redesigned with interface, new update can be found at https://github.com/Erdxd/password/releases/tag/new")
+	//defer fmt.Println("Check the version, this app will be redesigned with interface, new update can be found at https://github.com/Erdxd/password/releases/tag/new")
 
 	vault := account.NewVault(files.NewJsonDB("data.json"))
-	//vault := account.NewVault(cloud.NewCloudDB("htttps://a.ru"))\
-	output.PrintError(1)
+	//vault := account.NewVault(cloud.NewCloudDB("htttps://a.ru")
+	fmt.Println("___Менеджер паролей___")
+
 menu:
 	for {
+		Useranswer := promtData([]string{
+			"1-Создание аккаунта",
+			"2-Найти аккаунт",
+			"3-Удаление аккаунта",
+			"4-Выход",
+			"Выберите вариант",
+		})
 
-		fmt.Println("Меню:")
-		fmt.Println("1-Создание аккаунта")
-		fmt.Println("2-Найти аккаунт")
-		fmt.Println("3-Удаление аккаунта")
-		fmt.Println("4-Выход")
-
-		Useranswer := ""
-		fmt.Scanln(&Useranswer)
 		switch Useranswer {
 		case "1":
-
 			CreatedAccount(vault)
 		case "2":
-
 			Findaccount(vault)
-
 		case "3":
-
 			DeleteAcccount(vault)
-
 		case "4":
 			break menu
 		case "111":
@@ -54,18 +49,18 @@ menu:
 }
 
 func CreatedAccount(vault *account.VaultwithDB) {
-	login := promtData("Введите логин")
-	password := promtData("Введите пароль")
-	URL := promtData("Введите URL")
+	login := promtData([]string{"Введите логин"})
+	password := promtData([]string{"Введите пароль"})
+	URL := promtData([]string{"Введите URL"})
 
 	var err error
 	MYaccount, err := account.NewAccount(login, password, URL)
 	if err != nil {
-		fmt.Println("неверный формат URL")
+		output.PrintError("Неверный формат URl")
 		return
 	}
 	if login == "" {
-		fmt.Println("Логина нету")
+		output.PrintError("Логина нет")
 		return
 	}
 	if password == "" {
@@ -82,11 +77,11 @@ func CreatedAccount(vault *account.VaultwithDB) {
 }
 func Findaccount(vault *account.VaultwithDB) {
 	fmt.Println("Найти аккаунт")
-	URl := promtData("ВВедите URl")
+	URl := promtData([]string{"ВВедите URl"})
 
 	accounts := vault.FIndaccountBYURL(URl)
 	if len(accounts) == 0 {
-		color.Red("Аккаунтов по этому URl не найденно")
+		output.PrintError("Аккаунтов по этому URl не найденно")
 	}
 	for _, account := range accounts {
 		account.Output()
@@ -94,19 +89,26 @@ func Findaccount(vault *account.VaultwithDB) {
 }
 func DeleteAcccount(vault *account.VaultwithDB) {
 	fmt.Println("Найти аккаунт")
-	URl := promtData("ВВедите URl")
+	URl := promtData([]string{"ВВедите URl"})
 	isDELETED := vault.DeleteAcccountBYURL(URl)
 	if isDELETED {
 		color.Green("Аккаунт удален")
 
 	} else {
-		color.Red("Аккаунт не удален")
+		output.PrintError("Аккаунт не удален")
 	}
 
 }
 
-func promtData(prompt string) string {
-	fmt.Println(prompt + ": ")
+func promtData[T any](prompt []T) string {
+	for i, line := range prompt {
+		if i == len(prompt)-1 {
+			fmt.Printf("%v:", line)
+		} else {
+			fmt.Println(line)
+		}
+	}
+
 	var res string
 	fmt.Scanln(&res)
 	return res

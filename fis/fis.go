@@ -9,7 +9,7 @@ func Fisacc() {
 	color.Red("!!!!!!!")
 	db := files.NewJsonDB("data.json")
 
-	db.Read()
+	db.ReadFis()
 
 	color.Red("!!!!!!!")
 
