@@ -5,13 +5,16 @@ import (
 
 	"github.com/Erdxd/password/account"
 	"github.com/Erdxd/password/files"
-	"github.com/Erdxd/password/fis"
 	"github.com/Erdxd/password/output"
 	"github.com/fatih/color"
 )
 
 func main() {
-
+	var menu = map[string]func(*account.VaultwithDB){
+		"1": CreatedAccount,
+		"2": Findaccount,
+		"3": DeleteAcccount,
+	}
 	//defer fmt.Println("Check the version, this app will be redesigned with interface, new update can be found at https://github.com/Erdxd/password/releases/tag/new")
 
 	vault := account.NewVault(files.NewJsonDB("data.json"))
@@ -27,8 +30,16 @@ menu:
 			"4-Выход",
 			"Выберите вариант",
 		})
+		FuncMenu := menu[Useranswer]
+		if FuncMenu == nil {
+			output.PrintError("Попробйте еще раз")
+			continue menu
 
-		switch Useranswer {
+		}
+
+		FuncMenu(vault)
+
+		/*switch Useranswer {
 		case "1":
 			CreatedAccount(vault)
 		case "2":
@@ -43,7 +54,7 @@ menu:
 			color.Red("Вы ввели что-то не так")
 			continue menu
 		}
-
+		*/
 	}
 
 }
