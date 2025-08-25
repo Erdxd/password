@@ -11,6 +11,7 @@ import (
 )
 
 func main() {
+	GeneratePassword2()
 	var menu = map[string]func(*account.VaultwithDB){
 		"1": CreatedAccount,
 		"2": Findaccount,
@@ -131,5 +132,9 @@ func promtData[T any](prompt []T) string {
 	var res string
 	fmt.Scanln(&res)
 	return res
+
+}
+func GeneratePassword2() {
+	account.GeneratePassword2(4)
 
 }

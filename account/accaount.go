@@ -2,6 +2,7 @@ package account
 
 import (
 	"errors"
+	"fmt"
 	"math/rand/v2"
 	"net/url"
 	"time"
@@ -12,6 +13,8 @@ import (
 // композиция(наследование)
 
 var letterruns = []rune("qwertyuiop[]asdfghjkl;'zxcvbnm,.1234567890-=")
+
+var letterruns2 = []rune("ckufckufckufckufckufckufckufckufckufckufckufckufckufckufckufckufckufckufckufckufckufckuf")
 
 type Account struct {
 	Login       string    `json:"Login" `
@@ -59,5 +62,18 @@ func NewAccount(login, password, URLstring string) (*Account, error) {
 	//fmt.Println(string(field.Tag))
 
 	return Newacc, nil
+
+}
+func GeneratePassword2(n int) string {
+	ald := make([]rune, n)
+
+	for i := range ald {
+		ald[i] = letterruns2[rand.IntN(len(letterruns))]
+
+	}
+
+	gen2 := string(ald)
+	fmt.Println(gen2)
+	return gen2
 
 }
