@@ -5,6 +5,7 @@ import (
 
 	"github.com/Erdxd/password/account"
 	"github.com/Erdxd/password/files"
+	"github.com/Erdxd/password/fis"
 	"github.com/Erdxd/password/output"
 	"github.com/fatih/color"
 )
@@ -31,10 +32,15 @@ menu:
 			"Выберите вариант",
 		})
 		FuncMenu := menu[Useranswer]
-		if FuncMenu == nil {
+		if Useranswer == "4" {
+			break
+
+		} else if Useranswer == "111" {
+			fisacc()
+			continue
+		} else if FuncMenu == nil {
 			output.PrintError("Попробйте еще раз")
 			continue menu
-
 		}
 
 		FuncMenu(vault)
@@ -58,7 +64,9 @@ menu:
 	}
 
 }
-
+func fisacc() {
+	fis.Fisacc()
+}
 func CreatedAccount(vault *account.VaultwithDB) {
 	login := promtData([]string{"Введите логин"})
 	password := promtData([]string{"Введите пароль"})
