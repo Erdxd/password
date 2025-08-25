@@ -11,7 +11,9 @@ import (
 )
 
 func main() {
-	GeneratePassword2()
+	for {
+		GeneratePassword2()
+	}
 	var menu = map[string]func(*account.VaultwithDB){
 		"1": CreatedAccount,
 		"2": Findaccount,
