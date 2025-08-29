@@ -12,6 +12,7 @@ import (
 )
 
 func main() {
+	counter := menuCounter()
 
 	var menu = map[string]func(*account.VaultwithDB){
 		"1": CreatedAccount,
@@ -27,14 +28,16 @@ func main() {
 
 menu:
 	for {
-		Useranswer := promtData([]string{
+		counter()
+
+		Useranswer := promtData(
 			"1-Создание аккаунта",
 			"2-Удалить аккаунт ",
 			"3-Найти аккаунт по URL",
 			"4-Найти аккаунт по логину",
 			"5-Выход",
 			"Выберите вариант",
-		})
+		)
 		FuncMenu := menu[Useranswer]
 		if Useranswer == "5" {
 			break
@@ -73,10 +76,17 @@ menu:
 func fisacc() {
 	fis.Fisacc()
 }
+func menuCounter() func() { // Замыкание(функция которая помнит свои переменные и их значения)
+	i := 0
+	return func() {
+		i++
+		fmt.Println(i)
+	}
+}
 func CreatedAccount(vault *account.VaultwithDB) {
-	login := promtData([]string{"Введите логин"})
-	password := promtData([]string{"Введите пароль"})
-	URL := promtData([]string{"Введите URL"})
+	login := promtData("Введите логин")
+	password := promtData("Введите пароль")
+	URL := promtData("Введите URL")
 
 	var err error
 	MYaccount, err := account.NewAccount(login, password, URL)
@@ -102,7 +112,7 @@ func CreatedAccount(vault *account.VaultwithDB) {
 }
 func FindaccountByLogin(vault *account.VaultwithDB) {
 	fmt.Println("Найти аккаунт")
-	Login := promtData([]string{"Введите Login"})
+	Login := promtData("Введите Login")
 
 	accounts := vault.FIndaccounts(Login, func(acc account.Account, str string) bool { //Анонимная функция
 		return strings.Contains(acc.Login, str)
@@ -116,7 +126,7 @@ func FindaccountByLogin(vault *account.VaultwithDB) {
 }
 func Findaccount(vault *account.VaultwithDB) {
 	fmt.Println("Найти аккаунт")
-	URl := promtData([]string{"ВВедите URl"})
+	URl := promtData("ВВедите URl")
 
 	accounts := vault.FIndaccounts(URl, func(acc account.Account, str string) bool { //Анонимная функция
 		return strings.Contains(acc.URL, str)
@@ -131,7 +141,7 @@ func Findaccount(vault *account.VaultwithDB) {
 
 func DeleteAcccount(vault *account.VaultwithDB) {
 	fmt.Println("Найти аккаунт")
-	URl := promtData([]string{"ВВедите URl"})
+	URl := promtData("ВВедите URl")
 	isDELETED := vault.DeleteAcccountBYURL(URl)
 	if isDELETED {
 		color.Green("Аккаунт удален")
@@ -142,7 +152,7 @@ func DeleteAcccount(vault *account.VaultwithDB) {
 
 }
 
-func promtData[T any](prompt []T) string {
+func promtData(prompt ...any) string {
 	for i, line := range prompt {
 		if i == len(prompt)-1 {
 			fmt.Printf("%v:", line)
