@@ -75,7 +75,7 @@ menu:
 }
 func fisacc() {
 	fis.Fisacc()
-	fmt.Print(2)
+
 }
 func menuCounter() func() { // Замыкание(функция которая помнит свои переменные и их значения	)
 	i := 0
