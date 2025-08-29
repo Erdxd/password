@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/Erdxd/password/account"
 	"github.com/Erdxd/password/files"
@@ -11,13 +12,12 @@ import (
 )
 
 func main() {
-	for {
-		GeneratePassword2()
-	}
+
 	var menu = map[string]func(*account.VaultwithDB){
 		"1": CreatedAccount,
-		"2": Findaccount,
-		"3": DeleteAcccount,
+		"2": DeleteAcccount,
+		"3": Findaccount,
+		"4": FindaccountByLogin,
 	}
 	//defer fmt.Println("Check the version, this app will be redesigned with interface, new update can be found at https://github.com/Erdxd/password/releases/tag/new")
 
@@ -29,13 +29,14 @@ menu:
 	for {
 		Useranswer := promtData([]string{
 			"1-Создание аккаунта",
-			"2-Найти аккаунт",
-			"3-Удаление аккаунта",
-			"4-Выход",
+			"2-Удалить аккаунт ",
+			"3-Найти аккаунт по URL",
+			"4-Найти аккаунт по логину",
+			"5-Выход",
 			"Выберите вариант",
 		})
 		FuncMenu := menu[Useranswer]
-		if Useranswer == "4" {
+		if Useranswer == "5" {
 			break
 
 		} else if Useranswer == "111" {
@@ -49,20 +50,22 @@ menu:
 		FuncMenu(vault)
 
 		/*switch Useranswer {
-		case "1":
-			CreatedAccount(vault)
-		case "2":
-			Findaccount(vault)
-		case "3":
-			DeleteAcccount(vault)
-		case "4":
-			break menu
-		case "111":
-			fis.Fisacc()
-		default:
-			color.Red("Вы ввели что-то не так")
-			continue menu
-		}
+				case "1":
+					CreatedAccount(vault)
+				case "2":
+					Findaccount(vault)
+				case "3":
+					DeleteAcccount(vault)
+				case "4":
+					break menu
+				case "111":
+					fis.Fisacc()
+				default:
+					color.Red("Вы ввели что-то не так")
+					continue menu
+				}
+
+		f
 		*/
 	}
 
@@ -97,11 +100,27 @@ func CreatedAccount(vault *account.VaultwithDB) {
 	vault.AddAccount(*MYaccount)
 
 }
+func FindaccountByLogin(vault *account.VaultwithDB) {
+	fmt.Println("Найти аккаунт")
+	Login := promtData([]string{"Введите Login"})
+
+	accounts := vault.FIndaccounts(Login, func(acc account.Account, str string) bool { //Анонимная функция
+		return strings.Contains(acc.Login, str)
+	})
+	if len(accounts) == 0 {
+		output.PrintError("Аккаунтов по этому Login не найденно")
+	}
+	for _, account := range accounts {
+		account.Output()
+	}
+}
 func Findaccount(vault *account.VaultwithDB) {
 	fmt.Println("Найти аккаунт")
 	URl := promtData([]string{"ВВедите URl"})
 
-	accounts := vault.FIndaccountBYURL(URl)
+	accounts := vault.FIndaccounts(URl, func(acc account.Account, str string) bool { //Анонимная функция
+		return strings.Contains(acc.URL, str)
+	})
 	if len(accounts) == 0 {
 		output.PrintError("Аккаунтов по этому URl не найденно")
 	}
@@ -109,6 +128,7 @@ func Findaccount(vault *account.VaultwithDB) {
 		account.Output()
 	}
 }
+
 func DeleteAcccount(vault *account.VaultwithDB) {
 	fmt.Println("Найти аккаунт")
 	URl := promtData([]string{"ВВедите URl"})
@@ -134,9 +154,5 @@ func promtData[T any](prompt []T) string {
 	var res string
 	fmt.Scanln(&res)
 	return res
-
-}
-func GeneratePassword2() {
-	account.GeneratePassword2(4)
 
 }
