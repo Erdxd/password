@@ -78,7 +78,7 @@ func (vault *VaultwithDB) FIndaccounts(str string, checker func(Account, string)
 	return accounts
 
 }
-
+	
 func (vault *VaultwithDB) DeleteAcccountBYURL(url string) bool {
 	var accounts []Account
 	isDELETED := false

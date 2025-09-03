@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-counter := menuCounter()
+	counter := menuCounter()
 
 	var menu = map[string]func(*account.VaultwithDB){
 		"1": CreatedAccount,
@@ -167,5 +167,3 @@ func promtData(prompt ...any) string {
 	return res
 
 }
-func app(){
-fmt.Println("cj")}
