@@ -6,6 +6,7 @@ import (
 
 	"time"
 
+	"github.com/Erdxd/password/encryptor"
 	"github.com/fatih/color"
 )
 
@@ -26,11 +27,13 @@ type Vault struct {
 }
 type VaultwithDB struct {
 	Vault
-	db Db
+	db  Db
+	enc encryptor.Encrypter
 }
 
-func NewVault(db Db) *VaultwithDB {
+func NewVault(db Db, enc encryptor.Encrypter) *VaultwithDB {
 	file, err := db.Read()
+
 	if err != nil {
 
 		return &VaultwithDB{
@@ -38,12 +41,15 @@ func NewVault(db Db) *VaultwithDB {
 				Accounts:     []Account{},
 				UpdatedtTime: time.Now(),
 			},
-			db: db,
+			db:  db,
+			enc: enc,
 		}
 	}
+	data := enc.Decrypt(file)
 
 	var vault Vault
-	err = json.Unmarshal(file, &vault)
+	err = json.Unmarshal(data, &vault)
+	color.Cyan("Найденно %d аккаунтов", len(vault.Accounts))
 	if err != nil {
 		color.Red(err.Error())
 		return &VaultwithDB{
@@ -51,12 +57,14 @@ func NewVault(db Db) *VaultwithDB {
 				Accounts:     []Account{},
 				UpdatedtTime: time.Now(),
 			},
-			db: db,
+			db:  db,
+			enc: enc,
 		}
 	}
 	return &VaultwithDB{
 		Vault: vault,
 		db:    db,
+		enc:   enc,
 	}
 }
 
@@ -78,7 +86,7 @@ func (vault *VaultwithDB) FIndaccounts(str string, checker func(Account, string)
 	return accounts
 
 }
-	
+
 func (vault *VaultwithDB) DeleteAcccountBYURL(url string) bool {
 	var accounts []Account
 	isDELETED := false
@@ -109,11 +117,12 @@ func (vault *VaultwithDB) save() {
 
 	vault.UpdatedtTime = time.Now()
 	data, err := vault.Vault.ToBytes()
+	encData := vault.enc.Encrypt(data)
 	if err != nil {
-		color.Red("Не удалось преобразовать файл JSON")
+		color.Red("Не удалось преобразовать файл vault")
 		return
 
 	}
-	vault.db.Write(data)
+	vault.db.Write(encData)
 
 }

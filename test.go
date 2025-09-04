@@ -5,14 +5,20 @@ import (
 	"strings"
 
 	"github.com/Erdxd/password/account"
+	"github.com/Erdxd/password/encryptor"
 	"github.com/Erdxd/password/files"
 	"github.com/Erdxd/password/fis"
 	"github.com/Erdxd/password/output"
 	"github.com/fatih/color"
+	"github.com/joho/godotenv"
 )
 
 func main() {
 	counter := menuCounter()
+	err := godotenv.Load()
+	if err != nil {
+		output.PrintError("Не удалось найти env файл")
+	}
 
 	var menu = map[string]func(*account.VaultwithDB){
 		"1": CreatedAccount,
@@ -22,7 +28,7 @@ func main() {
 	}
 	//defer fmt.Println("Check the version, this app will be redesigned with interface, new update can be found at https://github.com/Erdxd/password/releases/tag/new")
 
-	vault := account.NewVault(files.NewJsonDB("data.json"))
+	vault := account.NewVault(files.NewJsonDB("data.vault"), *encryptor.NewEncryptor())
 	//vault := account.NewVault(cloud.NewCloudDB("htttps://a.ru")
 	fmt.Println("___Менеджер паролей___")
 
